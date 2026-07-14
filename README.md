@@ -125,25 +125,161 @@ Ambil data satu cabang.
 ## Menu
 
 ### GET /api/menu
-Ambil semua menu yang tersedia beserta harganya.
+Ambil semua menu yang aktif.
 
 **Response (200):**
 ```json
 {
   "count": 12,
   "data": [
-    { "id": 1, "nama": "Chocolate Croissant", "harga": 46900 },
-    { "id": 2, "nama": "Ginger Scone", "harga": 26500 },
-    { "id": 3, "nama": "Cranberry Scone", "harga": 40600 },
-    { "id": 4, "nama": "Latte", "harga": 37500 },
-    { "id": 5, "nama": "Columbian Medium Roast Rg", "harga": 25000 },
-    { "id": 6, "nama": "Latte Rg", "harga": 42500 },
-    { "id": 7, "nama": "Dark chocolate Lg", "harga": 45000 },
-    { "id": 8, "nama": "Sustainably Grown Organic Lg", "harga": 47500 },
-    { "id": 9, "nama": "Sustainably Grown Organic Rg", "harga": 37500 },
-    { "id": 10, "nama": "Earl Grey Rg", "harga": 25000 },
-    { "id": 11, "nama": "Morning Sunrise Chai Rg", "harga": 25000 },
-    { "id": 12, "nama": "Peppermint Rg", "harga": 25000 }
+    {
+      "id": "uuid",
+      "nama": "Chocolate Croissant",
+      "kategori": "Bakery",
+      "harga": 46900,
+      "is_active": true,
+      "created_at": "2026-07-13T05:00:00"
+    }
+  ]
+}
+```
+
+---
+
+### GET /api/menu/{id}
+Ambil detail satu menu.
+
+**Response (200):**
+```json
+{
+  "data": {
+    "id": "uuid",
+    "nama": "Chocolate Croissant",
+    "kategori": "Bakery",
+    "harga": 46900,
+    "is_active": true,
+    "created_at": "2026-07-13T05:00:00"
+  }
+}
+```
+
+**Error (404):**
+```json
+{ "detail": "Menu tidak ditemukan" }
+```
+
+---
+
+### POST /api/menu
+Tambah menu baru.
+
+**Request:**
+```json
+{
+  "nama": "Mocha",
+  "kategori": "Coffee",
+  "harga": 45000
+}
+```
+
+**Response (200):**
+```json
+{
+  "message": "Menu berhasil dibuat",
+  "data": {
+    "id": "uuid",
+    "nama": "Mocha",
+    "kategori": "Coffee",
+    "harga": 45000,
+    "is_active": true,
+    "created_at": "2026-07-13T05:00:00"
+  }
+}
+```
+
+**Error (400):**
+```json
+{ "detail": "Menu 'Mocha' sudah ada" }
+```
+
+---
+
+### PUT /api/menu/{id}
+Edit menu. Jika nama berubah, model.pkl akan diupdate otomatis.
+
+**Request:**
+```json
+{
+  "nama": "Mocha Baru",
+  "kategori": "Coffee",
+  "harga": 50000
+}
+```
+
+**Response (200):**
+```json
+{
+  "message": "Menu berhasil diupdate",
+  "data": { ... }
+}
+```
+
+---
+
+### DELETE /api/menu/{id}
+Soft delete menu (set `is_active=false`). Model.pkl juga akan diupdate.
+
+**Response (200):**
+```json
+{ "message": "Menu 'Mocha' berhasil dihapus (soft delete)" }
+```
+
+---
+
+### POST /api/menu/train/{menu_name}
+Train model untuk 1 menu (3 cabang). Minimal 7 hari data transaksi.
+
+**Response (200):**
+```json
+{
+  "message": "Berhasil train menu 'Latte'",
+  "trained_cabang": 3,
+  "total_models_in_pkl": 36
+}
+```
+
+**Error (400):**
+```json
+{ "detail": "Tidak ada data transaksi untuk menu 'Latte'" }
+```
+
+---
+
+### POST /api/menu/train/all
+Retrain semua model (36 model = 12 menu x 3 cabang).
+
+**Response (200):**
+```json
+{
+  "message": "Training selesai: 12 sukses, 0 gagal",
+  "results": [ ... ]
+}
+```
+
+---
+
+### GET /api/menu/train/status
+Cek status training semua menu.
+
+**Response (200):**
+```json
+{
+  "total_menu": 12,
+  "trained": 10,
+  "untrained": 2,
+  "menus": [
+    { "menu": "Latte", "has_model": true },
+    { "menu": "Mocha", "has_model": false }
   ]
 }
 ```
@@ -230,7 +366,7 @@ Ambil transaksi 7 hari terakhir suatu cabang.
 ## Hasil DSS
 
 ### GET /api/hasil-dss/{cabang_id}
-Ambil hasil DSS terbaru (prediksi + rekomendasi promo) untuk satu cabang.
+Ambil hasil DSS terbaru (prediksi + rekomendasi promo + menu engineering) untuk satu cabang.
 
 **Response (200):**
 ```json
@@ -242,8 +378,7 @@ Ambil hasil DSS terbaru (prediksi + rekomendasi promo) untuk satu cabang.
       "periode_minggu": "2026-07-13",
       "generated_at": "2026-07-13T23:00:00",
       "prediksi": [
-        { "menu": "Latte", "prediksi_qty": 12.67, "tanggal": "2026-07-14" },
-        { "menu": "Latte", "prediksi_qty": 12.73, "tanggal": "2026-07-15" }
+        { "menu": "Latte", "prediksi_qty": 12.67, "tanggal": "2026-07-14" }
       ]
     },
     "rekomendasi_promo": {
@@ -251,8 +386,23 @@ Ambil hasil DSS terbaru (prediksi + rekomendasi promo) untuk satu cabang.
       "periode_minggu": "2026-07-13",
       "generated_at": "2026-07-13T23:00:00",
       "rekomendasi_promo": [
-        { "hari": "Senin", "tanggal": "2026-07-14", "menu": "Mocha", "alasan": "prediksi penjualan terendah" }
+        {
+          "hari": "Senin",
+          "tanggal": "2026-07-14",
+          "menu": "Cranberry Scone",
+          "kuadran": "Dog",
+          "harga_normal": 40600,
+          "diskon": "20%",
+          "harga_promo": 32480,
+          "alasan": "Prediksi penjualan rendah, margin rendah"
+        }
       ]
+    },
+    "menu_engineering": {
+      "star": ["Latte", "Earl Grey Rg"],
+      "plowhorse": ["Latte Rg"],
+      "puzzle": ["Dark chocolate Lg"],
+      "dog": ["Cranberry Scone"]
     }
   }
 }
@@ -293,9 +443,35 @@ Ambil hanya rekomendasi promo untuk satu cabang.
   "periode_minggu": "2026-07-13",
   "generated_at": "2026-07-13T23:00:00",
   "rekomendasi_promo": [
-    { "hari": "Senin", "tanggal": "2026-07-14", "menu": "Mocha", "alasan": "prediksi penjualan terendah" },
-    { "hari": "Selasa", "tanggal": "2026-07-15", "menu": "Latte", "alasan": "prediksi penjualan terendah" }
+    {
+      "hari": "Senin",
+      "tanggal": "2026-07-14",
+      "menu": "Cranberry Scone",
+      "kuadran": "Dog",
+      "harga_normal": 40600,
+      "diskon": "20%",
+      "harga_promo": 32480,
+      "alasan": "Prediksi penjualan rendah, margin rendah"
+    }
   ]
+}
+```
+
+---
+
+### GET /api/hasil-dss/engineering/{cabang_id}
+Ambil menu engineering matrix untuk satu cabang.
+
+**Response (200):**
+```json
+{
+  "cabang_id": "cabang_1",
+  "periode_minggu": "2026-07-13",
+  "generated_at": "2026-07-13T23:00:00",
+  "star": ["Latte", "Earl Grey Rg"],
+  "plowhorse": ["Latte Rg"],
+  "puzzle": ["Dark chocolate Lg"],
+  "dog": ["Cranberry Scone"]
 }
 ```
 
@@ -346,7 +522,7 @@ Perbandingan performa antar cabang.
 ---
 
 ### GET /api/dashboard/hasil-dss-global
-Hasil DSS semua cabang sekaligus (prediksi + promo per cabang).
+Hasil DSS semua cabang sekaligus (prediksi + promo + engineering per cabang).
 
 **Response (200):**
 ```json
@@ -357,7 +533,8 @@ Hasil DSS semua cabang sekaligus (prediksi + promo per cabang).
       "nama": "Cabang Astoria",
       "hasil_dss": {
         "prediksi": { ... },
-        "rekomendasi_promo": { ... }
+        "rekomendasi_promo": { ... },
+        "menu_engineering": { ... }
       }
     }
   ]
@@ -415,22 +592,33 @@ Cek status scheduler.
 
 ---
 
+## Menu Engineering Matrix
+
+| Kuadran | Popularitas | Profitabilitas | Strategi |
+|---------|-------------|----------------|----------|
+| ⭐ Star | Tinggi | Tinggi | Pertahankan, jangan promo |
+| 🐄 Plowhorse | Tinggi | Rendah | Coba tingkatkan harga |
+| ❓ Puzzle | Rendah | Tinggi | Promo 10% |
+| 🐕 Dog | Rendah | Rendah | Promo 20-25% |
+
+---
+
 ## Menu yang Digunakan
 12 menu hasil training model:
-| No | Menu |
-|----|------|
-| 1 | Chocolate Croissant |
-| 2 | Ginger Scone |
-| 3 | Cranberry Scone |
-| 4 | Latte |
-| 5 | Columbian Medium Roast Rg |
-| 6 | Latte Rg |
-| 7 | Dark chocolate Lg |
-| 8 | Sustainably Grown Organic Lg |
-| 9 | Sustainably Grown Organic Rg |
-| 10 | Earl Grey Rg |
-| 11 | Morning Sunrise Chai Rg |
-| 12 | Peppermint Rg |
+| No | Menu | Kategori |
+|----|------|----------|
+| 1 | Chocolate Croissant | Bakery |
+| 2 | Ginger Scone | Bakery |
+| 3 | Cranberry Scone | Bakery |
+| 4 | Latte | Coffee |
+| 5 | Columbian Medium Roast Rg | Coffee |
+| 6 | Latte Rg | Coffee |
+| 7 | Dark chocolate Lg | Drinking Chocolate |
+| 8 | Sustainably Grown Organic Lg | Coffee |
+| 9 | Sustainably Grown Organic Rg | Coffee |
+| 10 | Earl Grey Rg | Tea |
+| 11 | Morning Sunrise Chai Rg | Tea |
+| 12 | Peppermint Rg | Tea |
 
 ---
 

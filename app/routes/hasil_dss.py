@@ -14,7 +14,7 @@ def get_hasil_dss(cabang_id: str):
         .select("*")
         .eq("cabang_id", cabang_id)
         .order("created_at", desc=True)
-        .limit(2)
+        .limit(3)
         .execute()
     )
     if not result.data:
@@ -70,3 +70,25 @@ def get_promo(cabang_id: str):
     promo = download_json(bucket, key)
 
     return promo
+
+
+@router.get("/engineering/{cabang_id}")
+def get_engineering(cabang_id: str):
+    db = get_supabase()
+    result = (
+        db.table("hasil_dss")
+        .select("*")
+        .eq("cabang_id", cabang_id)
+        .eq("tipe", "menu_engineering")
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    )
+    if not result.data:
+        raise HTTPException(status_code=404, detail="Belum ada data menu engineering")
+
+    file_url = result.data[0]["file_url"]
+    bucket, key = file_url.split("/", 1)
+    engineering = download_json(bucket, key)
+
+    return engineering

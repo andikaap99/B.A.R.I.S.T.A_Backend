@@ -1,4 +1,5 @@
 import json
+import pickle
 from app.storage import get_minio_client
 from app.config import MINIO_BUCKET_DSS, MINIO_BUCKET_MODEL
 
@@ -22,7 +23,7 @@ def download_json(bucket: str, key: str):
     return json.loads(content)
 
 
-def download_model(bucket: str, key: str):
+def download_model_bytes(bucket: str, key: str):
     client = get_minio_client()
     response = client.get_object(Bucket=bucket, Key=key)
     return response["Body"].read()
@@ -45,4 +46,19 @@ def upload_promo(cabang_id: str, tanggal: str, data: dict):
 
 
 def download_model_pkl():
-    return download_model(MINIO_BUCKET_MODEL, "model.pkl")
+    return download_model_bytes(MINIO_BUCKET_MODEL, "model.pkl")
+
+
+def download_model():
+    return download_model_bytes(MINIO_BUCKET_MODEL, "model.pkl")
+
+
+def upload_model_pkl(model_dict: dict):
+    client = get_minio_client()
+    model_bytes = pickle.dumps(model_dict)
+    client.put_object(
+        Bucket=MINIO_BUCKET_MODEL,
+        Key="model.pkl",
+        Body=model_bytes,
+        ContentType="application/octet-stream",
+    )

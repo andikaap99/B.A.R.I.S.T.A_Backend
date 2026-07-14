@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import date, datetime
-from typing import List
+from typing import List, Optional
 
 
 class TransaksiItem(BaseModel):
@@ -27,26 +27,39 @@ class TransaksiResponse(BaseModel):
 class PrediksiItem(BaseModel):
     menu: str
     prediksi_qty: float
-    tanggal: date
+    tanggal: str
 
 
 class PrediksiResponse(BaseModel):
     cabang_id: str
-    periode_minggu: date
+    periode_minggu: str
+    generated_at: str
     prediksi: List[PrediksiItem]
 
 
 class PromoItem(BaseModel):
-    menu: str
-    alasan: str
     hari: str
-    tanggal: date
+    tanggal: str
+    menu: str
+    kuadran: str
+    harga_normal: float
+    diskon: str
+    harga_promo: float
+    alasan: str
 
 
 class PromoResponse(BaseModel):
     cabang_id: str
-    periode_minggu: date
+    periode_minggu: str
+    generated_at: str
     rekomendasi_promo: List[PromoItem]
+
+
+class MenuEngineeringResponse(BaseModel):
+    star: List[str]
+    plowhorse: List[str]
+    puzzle: List[str]
+    dog: List[str]
 
 
 class DashboardCabang(BaseModel):
@@ -75,6 +88,39 @@ class CabangResponse(BaseModel):
     id: str
     nama: str
     lokasi: str
+
+
+class MenuCreate(BaseModel):
+    nama: str
+    kategori: str
+    harga: float
+
+
+class MenuUpdate(BaseModel):
+    nama: Optional[str] = None
+    kategori: Optional[str] = None
+    harga: Optional[float] = None
+
+
+class MenuResponse(BaseModel):
+    id: str
+    nama: str
+    kategori: str
+    harga: float
+    is_active: bool
+    created_at: datetime
+
+
+class TrainStatusItem(BaseModel):
+    menu: str
+    has_model: bool
+
+
+class TrainStatusResponse(BaseModel):
+    total_menu: int
+    trained: int
+    untrained: int
+    menus: List[TrainStatusItem]
 
 
 class UserCreate(BaseModel):

@@ -220,4 +220,5 @@ __marimo__/
 # Project - exclude non-frontend docs and ml artifacts
 about.md
 error.md
+todo.md
 ml/
