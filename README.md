@@ -52,6 +52,76 @@ Login user.
 
 ---
 
+## Cabang
+
+### POST /api/cabang
+Tambah data cabang baru.
+
+**Request:**
+```json
+{
+  "id": "cabang_4",
+  "nama": "Cabang Brooklyn",
+  "lokasi": "Brooklyn"
+}
+```
+
+**Response (200):**
+```json
+{
+  "message": "Cabang berhasil dibuat",
+  "data": {
+    "id": "cabang_4",
+    "nama": "Cabang Brooklyn",
+    "lokasi": "Brooklyn"
+  }
+}
+```
+
+**Error (400):**
+```json
+{ "error": "Cabang dengan id 'cabang_4' sudah ada" }
+```
+
+---
+
+### GET /api/cabang
+Ambil semua data cabang.
+
+**Response (200):**
+```json
+{
+  "data": [
+    { "id": "cabang_1", "nama": "Cabang Astoria", "lokasi": "Astoria" },
+    { "id": "cabang_2", "nama": "Cabang Hell Kitchen", "lokasi": "Hell Kitchen" },
+    { "id": "cabang_3", "nama": "Cabang Lower Manhattan", "lokasi": "Lower Manhattan" }
+  ]
+}
+```
+
+---
+
+### GET /api/cabang/{cabang_id}
+Ambil data satu cabang.
+
+**Response (200):**
+```json
+{
+  "data": {
+    "id": "cabang_1",
+    "nama": "Cabang Astoria",
+    "lokasi": "Astoria"
+  }
+}
+```
+
+**Error (400):**
+```json
+{ "error": "Cabang tidak ditemukan" }
+```
+
+---
+
 ## Transaksi
 
 ### POST /api/transaksi

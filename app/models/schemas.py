@@ -62,6 +62,18 @@ class PerbandinganCabang(BaseModel):
     menu_terlaris: str
 
 
+class CabangCreate(BaseModel):
+    id: str
+    nama: str
+    lokasi: str
+
+
+class CabangResponse(BaseModel):
+    id: str
+    nama: str
+    lokasi: str
+
+
 class UserCreate(BaseModel):
     username: str
     password: str

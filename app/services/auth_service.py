@@ -30,6 +30,11 @@ def register_user(username: str, password: str, cabang_id: str | None = None):
     if existing.data:
         return {"error": "Username sudah digunakan"}
 
+    if cabang_id is not None:
+        cabang = db.table("cabang").select("id").eq("id", cabang_id).execute()
+        if not cabang.data:
+            return {"error": f"Cabang dengan id '{cabang_id}' tidak ditemukan"}
+
     hashed = hash_password(password)
     result = db.table("users").insert({
         "username": username,
