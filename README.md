@@ -122,6 +122,34 @@ Ambil data satu cabang.
 
 ---
 
+## Menu
+
+### GET /api/menu
+Ambil semua menu yang tersedia.
+
+**Response (200):**
+```json
+{
+  "count": 12,
+  "data": [
+    "Chocolate Croissant",
+    "Ginger Scone",
+    "Cranberry Scone",
+    "Latte",
+    "Columbian Medium Roast Rg",
+    "Latte Rg",
+    "Dark chocolate Lg",
+    "Sustainably Grown Organic Lg",
+    "Sustainably Grown Organic Rg",
+    "Earl Grey Rg",
+    "Morning Sunrise Chai Rg",
+    "Peppermint Rg"
+  ]
+}
+```
+
+---
+
 ## Transaksi
 
 ### POST /api/transaksi
