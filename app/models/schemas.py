@@ -6,7 +6,6 @@ from typing import List
 class TransaksiItem(BaseModel):
     menu: str
     qty: int
-    harga: float
 
 
 class TransaksiCreate(BaseModel):

@@ -11,7 +11,7 @@ router = APIRouter(prefix="/api/transaksi", tags=["transaksi"])
 
 @router.post("", response_model=dict)
 def input_transaksi(data: TransaksiCreate):
-    items = [{"menu": item.menu, "qty": item.qty, "harga": item.harga} for item in data.items]
+    items = [{"menu": item.menu, "qty": item.qty} for item in data.items]
     result = create_transaksi(
         cabang_id=data.cabang_id,
         tanggal=data.tanggal,

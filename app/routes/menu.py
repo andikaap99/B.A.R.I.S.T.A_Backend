@@ -1,23 +1,11 @@
 from fastapi import APIRouter
+from app.database import get_supabase
 
 router = APIRouter(prefix="/api/menu", tags=["menu"])
-
-MENUS = [
-    "Chocolate Croissant",
-    "Ginger Scone",
-    "Cranberry Scone",
-    "Latte",
-    "Columbian Medium Roast Rg",
-    "Latte Rg",
-    "Dark chocolate Lg",
-    "Sustainably Grown Organic Lg",
-    "Sustainably Grown Organic Rg",
-    "Earl Grey Rg",
-    "Morning Sunrise Chai Rg",
-    "Peppermint Rg",
-]
 
 
 @router.get("")
 def get_all_menu():
-    return {"count": len(MENUS), "data": MENUS}
+    db = get_supabase()
+    result = db.table("menu").select("id, nama, harga").order("id").execute()
+    return {"count": len(result.data), "data": result.data}

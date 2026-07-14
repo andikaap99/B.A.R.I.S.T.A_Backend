@@ -2,6 +2,13 @@ from datetime import date, timedelta
 from app.database import get_supabase
 
 
+def _get_harga_menu(db, menu_nama: str) -> int:
+    result = db.table("menu").select("harga").eq("nama", menu_nama).execute()
+    if result.data:
+        return result.data[0]["harga"]
+    raise ValueError(f"Menu '{menu_nama}' tidak ditemukan di tabel menu")
+
+
 def create_transaksi(cabang_id: str, tanggal: date, items: list[dict]):
     db = get_supabase()
     rows = [
@@ -9,7 +16,7 @@ def create_transaksi(cabang_id: str, tanggal: date, items: list[dict]):
             "cabang_id": cabang_id,
             "menu": item["menu"],
             "qty": item["qty"],
-            "harga": item["harga"],
+            "harga": _get_harga_menu(db, item["menu"]),
             "tanggal": tanggal.isoformat(),
         }
         for item in items

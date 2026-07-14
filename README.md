@@ -125,25 +125,25 @@ Ambil data satu cabang.
 ## Menu
 
 ### GET /api/menu
-Ambil semua menu yang tersedia.
+Ambil semua menu yang tersedia beserta harganya.
 
 **Response (200):**
 ```json
 {
   "count": 12,
   "data": [
-    "Chocolate Croissant",
-    "Ginger Scone",
-    "Cranberry Scone",
-    "Latte",
-    "Columbian Medium Roast Rg",
-    "Latte Rg",
-    "Dark chocolate Lg",
-    "Sustainably Grown Organic Lg",
-    "Sustainably Grown Organic Rg",
-    "Earl Grey Rg",
-    "Morning Sunrise Chai Rg",
-    "Peppermint Rg"
+    { "id": 1, "nama": "Chocolate Croissant", "harga": 46900 },
+    { "id": 2, "nama": "Ginger Scone", "harga": 26500 },
+    { "id": 3, "nama": "Cranberry Scone", "harga": 40600 },
+    { "id": 4, "nama": "Latte", "harga": 37500 },
+    { "id": 5, "nama": "Columbian Medium Roast Rg", "harga": 25000 },
+    { "id": 6, "nama": "Latte Rg", "harga": 42500 },
+    { "id": 7, "nama": "Dark chocolate Lg", "harga": 45000 },
+    { "id": 8, "nama": "Sustainably Grown Organic Lg", "harga": 47500 },
+    { "id": 9, "nama": "Sustainably Grown Organic Rg", "harga": 37500 },
+    { "id": 10, "nama": "Earl Grey Rg", "harga": 25000 },
+    { "id": 11, "nama": "Morning Sunrise Chai Rg", "harga": 25000 },
+    { "id": 12, "nama": "Peppermint Rg", "harga": 25000 }
   ]
 }
 ```
@@ -153,7 +153,7 @@ Ambil semua menu yang tersedia.
 ## Transaksi
 
 ### POST /api/transaksi
-Input transaksi baru dari cabang (bisa beberapa item sekaligus).
+Input transaksi baru dari cabang (bisa beberapa item sekaligus). Harga otomatis diambil dari tabel `menu`.
 
 **Request:**
 ```json
@@ -161,8 +161,8 @@ Input transaksi baru dari cabang (bisa beberapa item sekaligus).
   "cabang_id": "cabang_1",
   "tanggal": "2026-07-13",
   "items": [
-    { "menu": "Latte", "qty": 5, "harga": 45000 },
-    { "menu": "Espresso", "qty": 3, "harga": 35000 }
+    { "menu": "Latte", "qty": 5 },
+    { "menu": "Dark chocolate Lg", "qty": 3 }
   ]
 }
 ```
@@ -177,16 +177,16 @@ Input transaksi baru dari cabang (bisa beberapa item sekaligus).
       "cabang_id": "cabang_1",
       "menu": "Latte",
       "qty": 5,
-      "harga": 45000,
+      "harga": 37500,
       "tanggal": "2026-07-13",
       "created_at": "..."
     },
     {
       "id": "uuid",
       "cabang_id": "cabang_1",
-      "menu": "Espresso",
+      "menu": "Dark chocolate Lg",
       "qty": 3,
-      "harga": 35000,
+      "harga": 45000,
       "tanggal": "2026-07-13",
       "created_at": "..."
     }

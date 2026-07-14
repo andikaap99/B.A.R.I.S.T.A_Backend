@@ -59,12 +59,10 @@ def seed_transaksi():
     cur.execute("DELETE FROM transaksi")
     print(f"[OK] {cur.rowcount} transaksi lama dihapus")
 
-    menus = [
-        "Chocolate Croissant", "Ginger Scone", "Cranberry Scone",
-        "Latte", "Columbian Medium Roast Rg", "Latte Rg",
-        "Dark chocolate Lg", "Sustainably Grown Organic Lg", "Sustainably Grown Organic Rg",
-        "Earl Grey Rg", "Morning Sunrise Chai Rg", "Peppermint Rg",
-    ]
+    cur.execute("SELECT nama, harga FROM menu")
+    menu_harga = {row[0]: row[1] for row in cur.fetchall()}
+
+    menus = list(menu_harga.keys())
     cabang_ids = ["cabang_1", "cabang_2", "cabang_3"]
 
     transaksi_list = []
@@ -75,7 +73,7 @@ def seed_transaksi():
         for cabang_id in cabang_ids:
             for menu in menus:
                 qty = random.randint(3, 25)
-                harga = random.choice([35000, 40000, 42000, 45000, 48000, 50000, 55000])
+                harga = menu_harga[menu]
                 transaksi_list.append((cabang_id, menu, qty, harga, tanggal))
 
     cur.executemany(
