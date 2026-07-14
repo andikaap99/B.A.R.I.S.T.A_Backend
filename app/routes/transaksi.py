@@ -11,14 +11,13 @@ router = APIRouter(prefix="/api/transaksi", tags=["transaksi"])
 
 @router.post("", response_model=dict)
 def input_transaksi(data: TransaksiCreate):
+    items = [{"menu": item.menu, "qty": item.qty, "harga": item.harga} for item in data.items]
     result = create_transaksi(
         cabang_id=data.cabang_id,
-        menu=data.menu,
-        qty=data.qty,
-        harga=data.harga,
         tanggal=data.tanggal,
+        items=items,
     )
-    return {"message": "Transaksi berhasil ditambahkan", "data": result}
+    return {"message": f"{len(result)} transaksi berhasil ditambahkan", "data": result}
 
 
 @router.get("/{cabang_id}")

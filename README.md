@@ -125,32 +125,44 @@ Ambil data satu cabang.
 ## Transaksi
 
 ### POST /api/transaksi
-Input transaksi baru dari cabang.
+Input transaksi baru dari cabang (bisa beberapa item sekaligus).
 
 **Request:**
 ```json
 {
   "cabang_id": "cabang_1",
-  "menu": "Latte",
-  "qty": 5,
-  "harga": 45000,
-  "tanggal": "2026-07-13"
+  "tanggal": "2026-07-13",
+  "items": [
+    { "menu": "Latte", "qty": 5, "harga": 45000 },
+    { "menu": "Espresso", "qty": 3, "harga": 35000 }
+  ]
 }
 ```
 
 **Response (200):**
 ```json
 {
-  "message": "Transaksi berhasil ditambahkan",
-  "data": {
-    "id": "uuid",
-    "cabang_id": "cabang_1",
-    "menu": "Latte",
-    "qty": 5,
-    "harga": 45000,
-    "tanggal": "2026-07-13",
-    "created_at": "..."
-  }
+  "message": "2 transaksi berhasil ditambahkan",
+  "data": [
+    {
+      "id": "uuid",
+      "cabang_id": "cabang_1",
+      "menu": "Latte",
+      "qty": 5,
+      "harga": 45000,
+      "tanggal": "2026-07-13",
+      "created_at": "..."
+    },
+    {
+      "id": "uuid",
+      "cabang_id": "cabang_1",
+      "menu": "Espresso",
+      "qty": 3,
+      "harga": 35000,
+      "tanggal": "2026-07-13",
+      "created_at": "..."
+    }
+  ]
 }
 ```
 

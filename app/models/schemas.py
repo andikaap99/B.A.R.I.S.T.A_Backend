@@ -3,12 +3,16 @@ from datetime import date, datetime
 from typing import List
 
 
-class TransaksiCreate(BaseModel):
-    cabang_id: str
+class TransaksiItem(BaseModel):
     menu: str
     qty: int
     harga: float
+
+
+class TransaksiCreate(BaseModel):
+    cabang_id: str
     tanggal: date
+    items: list[TransaksiItem]
 
 
 class TransaksiResponse(BaseModel):

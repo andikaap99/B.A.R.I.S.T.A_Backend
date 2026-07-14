@@ -2,16 +2,20 @@ from datetime import date, timedelta
 from app.database import get_supabase
 
 
-def create_transaksi(cabang_id: str, menu: str, qty: int, harga: float, tanggal: date):
+def create_transaksi(cabang_id: str, tanggal: date, items: list[dict]):
     db = get_supabase()
-    result = db.table("transaksi").insert({
-        "cabang_id": cabang_id,
-        "menu": menu,
-        "qty": qty,
-        "harga": harga,
-        "tanggal": tanggal.isoformat(),
-    }).execute()
-    return result.data[0]
+    rows = [
+        {
+            "cabang_id": cabang_id,
+            "menu": item["menu"],
+            "qty": item["qty"],
+            "harga": item["harga"],
+            "tanggal": tanggal.isoformat(),
+        }
+        for item in items
+    ]
+    result = db.table("transaksi").insert(rows).execute()
+    return result.data
 
 
 def get_transaksi_by_cabang(cabang_id: str):
