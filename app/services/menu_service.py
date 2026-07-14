@@ -18,6 +18,12 @@ def get_all_menu():
     return result.data
 
 
+def get_inactive_menu():
+    db = get_supabase()
+    result = db.table("menu").select("*").eq("is_active", False).order("id").execute()
+    return result.data
+
+
 def get_menu_by_id(menu_id: str):
     db = get_supabase()
     result = db.table("menu").select("*").eq("id", menu_id).execute()
@@ -88,6 +94,19 @@ def delete_menu(menu_id: str):
     db.table("menu").update({"is_active": False}).eq("id", menu_id).execute()
     _remove_menu_from_model(menu["nama"])
     return {"message": f"Menu '{menu['nama']}' berhasil dihapus (soft delete)"}
+
+
+def activate_menu(menu_id: str):
+    db = get_supabase()
+    menu = get_menu_by_id(menu_id)
+    if not menu:
+        return {"error": "Menu tidak ditemukan"}
+
+    if menu["is_active"]:
+        return {"error": f"Menu '{menu['nama']}' sudah aktif"}
+
+    db.table("menu").update({"is_active": True}).eq("id", menu_id).execute()
+    return {"message": f"Menu '{menu['nama']}' berhasil diaktifkan kembali"}
 
 
 def _rename_menu_in_model(old_nama: str, new_nama: str):

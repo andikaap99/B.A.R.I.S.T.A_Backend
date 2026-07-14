@@ -146,6 +146,28 @@ Ambil semua menu yang aktif.
 
 ---
 
+### GET /api/menu/inactive
+Ambil semua menu yang sudah non-aktif (soft delete).
+
+**Response (200):**
+```json
+{
+  "count": 2,
+  "data": [
+    {
+      "id": "uuid",
+      "nama": "Mocha",
+      "kategori": "Coffee",
+      "harga": 45000,
+      "is_active": false,
+      "created_at": "2026-07-13T05:00:00"
+    }
+  ]
+}
+```
+
+---
+
 ### GET /api/menu/{id}
 Ambil detail satu menu.
 
@@ -232,6 +254,21 @@ Soft delete menu (set `is_active=false`). Model.pkl juga akan diupdate.
 **Response (200):**
 ```json
 { "message": "Menu 'Mocha' berhasil dihapus (soft delete)" }
+```
+
+---
+
+### POST /api/menu/{id}/activate
+Aktifkan kembali menu yang sudah non-aktif.
+
+**Response (200):**
+```json
+{ "message": "Menu 'Mocha' berhasil diaktifkan kembali" }
+```
+
+**Error (400):**
+```json
+{ "detail": "Menu 'Mocha' sudah aktif" }
 ```
 
 ---
