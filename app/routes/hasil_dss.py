@@ -89,6 +89,11 @@ def get_engineering(cabang_id: str):
 
     file_url = result.data[0]["file_url"]
     bucket, key = file_url.split("/", 1)
-    engineering = download_json(bucket, key)
+    data = download_json(bucket, key)
 
-    return engineering
+    return {
+        "cabang_id": cabang_id,
+        "periode_minggu": data.get("periode_minggu"),
+        "generated_at": data.get("generated_at"),
+        "menu_engineering": data.get("menu_engineering", {}),
+    }

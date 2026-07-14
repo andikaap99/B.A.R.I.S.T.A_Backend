@@ -505,10 +505,12 @@ Ambil menu engineering matrix untuk satu cabang.
   "cabang_id": "cabang_1",
   "periode_minggu": "2026-07-13",
   "generated_at": "2026-07-13T23:00:00",
-  "star": ["Latte", "Earl Grey Rg"],
-  "plowhorse": ["Latte Rg"],
-  "puzzle": ["Dark chocolate Lg"],
-  "dog": ["Cranberry Scone"]
+  "menu_engineering": {
+    "star": ["Latte", "Earl Grey Rg"],
+    "plowhorse": ["Latte Rg"],
+    "puzzle": ["Dark chocolate Lg"],
+    "dog": ["Cranberry Scone"]
+  }
 }
 ```
 
