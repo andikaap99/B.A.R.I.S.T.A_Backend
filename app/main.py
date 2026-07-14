@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import transaksi, hasil_dss, dashboard, auth, cabang, menu
+from app.routes import transaksi, hasil_dss, dashboard, auth, cabang, menu, promo
 from app.scheduler import start_scheduler, trigger_dss_engine, get_scheduler_status
 from app.database import get_supabase
 from app.storage import get_minio_client
@@ -21,6 +21,7 @@ app.include_router(dashboard.router)
 app.include_router(auth.router)
 app.include_router(cabang.router)
 app.include_router(menu.router)
+app.include_router(promo.router)
 
 
 @app.on_event("startup")

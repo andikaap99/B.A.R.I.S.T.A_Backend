@@ -125,6 +125,8 @@ def _process_cabang(cabang_id: str, df: pd.DataFrame, model_dict, db, today: dat
 
     promo_list = _generate_dynamic_promo(prediksi_list, menu_prices, menu_engineering, today)
 
+    _save_promo_to_db(db, cabang_id, promo_list, periode_minggu)
+
     prediksi_data = {
         "cabang_id": cabang_id,
         "periode_minggu": periode_minggu,
@@ -256,3 +258,19 @@ def _generate_dynamic_promo(prediksi_list: list, menu_prices: dict, menu_enginee
                 })
 
     return promo_list
+
+
+def _save_promo_to_db(db, cabang_id: str, promo_list: list, periode_minggu: str):
+    db.table("promo").delete().eq("cabang_id", cabang_id).eq("periode_minggu", periode_minggu).execute()
+
+    for promo in promo_list:
+        db.table("promo").insert({
+            "cabang_id": cabang_id,
+            "menu_nama": promo["menu"],
+            "kuadran": promo["kuadran"],
+            "harga_normal": promo["harga_normal"],
+            "diskon": promo["diskon"],
+            "harga_promo": promo["harga_promo"],
+            "is_active": True,
+            "periode_minggu": periode_minggu,
+        }).execute()

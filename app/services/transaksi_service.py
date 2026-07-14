@@ -9,18 +9,47 @@ def _get_harga_menu(db, menu_nama: str) -> int:
     raise ValueError(f"Menu '{menu_nama}' tidak ditemukan di tabel menu")
 
 
+def _get_active_promo(db, cabang_id: str, menu_nama: str):
+    today = date.today().isoformat()
+    result = (
+        db.table("promo")
+        .select("*")
+        .eq("cabang_id", cabang_id)
+        .eq("menu_nama", menu_nama)
+        .eq("is_active", True)
+        .lte("periode_minggu", today)
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    )
+    if result.data:
+        return result.data[0]
+    return None
+
+
 def create_transaksi(cabang_id: str, tanggal: date, items: list[dict]):
     db = get_supabase()
-    rows = [
-        {
+    rows = []
+    for item in items:
+        harga_normal = _get_harga_menu(db, item["menu"])
+        promo = _get_active_promo(db, cabang_id, item["menu"])
+
+        if promo:
+            harga = float(promo["harga_promo"])
+            keterangan = True
+        else:
+            harga = float(harga_normal)
+            keterangan = False
+
+        rows.append({
             "cabang_id": cabang_id,
             "menu": item["menu"],
             "qty": item["qty"],
-            "harga": _get_harga_menu(db, item["menu"]),
+            "harga": harga,
+            "keterangan": keterangan,
             "tanggal": tanggal.isoformat(),
-        }
-        for item in items
-    ]
+        })
+
     result = db.table("transaksi").insert(rows).execute()
     return result.data
 

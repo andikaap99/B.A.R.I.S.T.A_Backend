@@ -326,7 +326,7 @@ Cek status training semua menu.
 ## Transaksi
 
 ### POST /api/transaksi
-Input transaksi baru dari cabang (bisa beberapa item sekaligus). Harga otomatis diambil dari tabel `menu`.
+Input transaksi baru dari cabang (bisa beberapa item sekaligus). Harga otomatis diambil dari tabel `menu`. Jika menu memiliki promo aktif, harga otomatis diskon dan `keterangan = true`.
 
 **Request:**
 ```json
@@ -335,7 +335,7 @@ Input transaksi baru dari cabang (bisa beberapa item sekaligus). Harga otomatis 
   "tanggal": "2026-07-13",
   "items": [
     { "menu": "Latte", "qty": 5 },
-    { "menu": "Dark chocolate Lg", "qty": 3 }
+    { "menu": "Cranberry Scone", "qty": 3 }
   ]
 }
 ```
@@ -351,21 +351,25 @@ Input transaksi baru dari cabang (bisa beberapa item sekaligus). Harga otomatis 
       "menu": "Latte",
       "qty": 5,
       "harga": 37500,
+      "keterangan": false,
       "tanggal": "2026-07-13",
       "created_at": "..."
     },
     {
       "id": "uuid",
       "cabang_id": "cabang_1",
-      "menu": "Dark chocolate Lg",
+      "menu": "Cranberry Scone",
       "qty": 3,
-      "harga": 45000,
+      "harga": 32480,
+      "keterangan": true,
       "tanggal": "2026-07-13",
       "created_at": "..."
     }
   ]
 }
 ```
+
+> **Catatan:** `keterangan = true` berarti transaksi menggunakan promo (harga diskon). `keterangan = false` berarti harga normal.
 
 ---
 
@@ -384,6 +388,7 @@ Ambil semua transaksi suatu cabang.
       "menu": "Latte",
       "qty": 5,
       "harga": 45000,
+      "keterangan": false,
       "tanggal": "2026-07-13",
       "created_at": "..."
     }
@@ -397,6 +402,45 @@ Ambil semua transaksi suatu cabang.
 Ambil transaksi 7 hari terakhir suatu cabang.
 
 **Response (200):** Sama seperti `GET /api/transaksi/{cabang_id}`, hanya data terbatas 7 hari.
+
+---
+
+## Struktur Database
+
+### Tabel `menu` (sudah di-ALTER)
+```sql
+CREATE TABLE menu (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  nama VARCHAR NOT NULL UNIQUE,
+  kategori VARCHAR NOT NULL,
+  harga NUMERIC(10,2),
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT now()
+);
+```
+
+### Tabel `promo` (baru)
+```sql
+CREATE TABLE promo (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  cabang_id VARCHAR NOT NULL,
+  menu_nama VARCHAR NOT NULL,
+  kuadran VARCHAR NOT NULL,
+  harga_normal NUMERIC(10,2),
+  diskon VARCHAR NOT NULL,
+  harga_promo NUMERIC(10,2),
+  is_active BOOLEAN DEFAULT true,
+  periode_minggu DATE NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
+);
+```
+
+### Tabel `transaksi` (update)
+```sql
+ALTER TABLE transaksi ADD COLUMN keterangan BOOLEAN DEFAULT false;
+```
+
+> **Catatan:** `keterangan = true` berarti transaksi menggunakan promo.
 
 ---
 
@@ -626,6 +670,35 @@ Cek status scheduler.
     "supabase": "connected",
     "minio": "connected"
   }
+}
+```
+
+---
+
+## Promo
+
+### GET /api/promo/{cabang_id}
+Ambil semua promo aktif untuk suatu cabang.
+
+**Response (200):**
+```json
+{
+  "cabang_id": "cabang_1",
+  "count": 3,
+  "data": [
+    {
+      "id": "uuid",
+      "cabang_id": "cabang_1",
+      "menu_nama": "Cranberry Scone",
+      "kuadran": "Dog",
+      "harga_normal": 40600,
+      "diskon": "20%",
+      "harga_promo": 32480,
+      "is_active": true,
+      "periode_minggu": "2026-07-13",
+      "created_at": "2026-07-13T23:00:00"
+    }
+  ]
 }
 ```
 

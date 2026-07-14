@@ -20,6 +20,7 @@ class TransaksiResponse(BaseModel):
     menu: str
     qty: int
     harga: float
+    keterangan: bool
     tanggal: date
     created_at: datetime
 
