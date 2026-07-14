@@ -429,11 +429,18 @@ CREATE TABLE promo (
   harga_normal NUMERIC(10,2),
   diskon VARCHAR NOT NULL,
   harga_promo NUMERIC(10,2),
+  kuota INT DEFAULT 20,
+  terpakai INT DEFAULT 0,
   is_active BOOLEAN DEFAULT true,
   periode_minggu DATE NOT NULL,
   created_at TIMESTAMP DEFAULT now()
 );
 ```
+
+> **Catatan:** 
+> - `kuota` = batas maksimal promo dipakai per hari (default: 20)
+> - `terpakai` = jumlah promo yang sudah dipakai hari ini
+> - Kuota direset otomatis setiap jam 00:00 WIB
 
 ### Tabel `transaksi` (update)
 ```sql
@@ -694,6 +701,9 @@ Ambil semua promo aktif untuk suatu cabang.
       "harga_normal": 40600,
       "diskon": "20%",
       "harga_promo": 32480,
+      "kuota": 20,
+      "terpakai": 5,
+      "sisa_kuota": 15,
       "is_active": true,
       "periode_minggu": "2026-07-13",
       "created_at": "2026-07-13T23:00:00"
@@ -701,6 +711,11 @@ Ambil semua promo aktif untuk suatu cabang.
   ]
 }
 ```
+
+> **Catatan:** 
+> - `sisa_kuota` = `kuota - terpakai`
+> - Jika `sisa_kuota = 0`, promo tidak akan diterapkan di transaksi baru
+> - Kuota direset otomatis setiap jam 00:00 WIB
 
 ---
 

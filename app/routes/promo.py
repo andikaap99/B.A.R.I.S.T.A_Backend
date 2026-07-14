@@ -15,4 +15,12 @@ def get_active_promo(cabang_id: str):
         .order("created_at", desc=True)
         .execute()
     )
-    return {"cabang_id": cabang_id, "count": len(result.data), "data": result.data}
+
+    data = []
+    for promo in result.data:
+        kuota = promo.get("kuota", 20)
+        terpakai = promo.get("terpakai", 0)
+        promo["sisa_kuota"] = kuota - terpakai
+        data.append(promo)
+
+    return {"cabang_id": cabang_id, "count": len(data), "data": data}

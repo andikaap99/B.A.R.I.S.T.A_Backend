@@ -271,6 +271,8 @@ def _save_promo_to_db(db, cabang_id: str, promo_list: list, periode_minggu: str)
             "harga_normal": promo["harga_normal"],
             "diskon": promo["diskon"],
             "harga_promo": promo["harga_promo"],
+            "kuota": 20,
+            "terpakai": 0,
             "is_active": True,
             "periode_minggu": periode_minggu,
         }).execute()

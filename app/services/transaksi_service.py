@@ -23,8 +23,17 @@ def _get_active_promo(db, cabang_id: str, menu_nama: str):
         .execute()
     )
     if result.data:
-        return result.data[0]
+        promo = result.data[0]
+        if promo.get("terpakai", 0) < promo.get("kuota", 20):
+            return promo
     return None
+
+
+def _increment_promo_used(db, promo_id: str):
+    result = db.table("promo").select("terpakai").eq("id", promo_id).execute()
+    if result.data:
+        current = result.data[0].get("terpakai", 0)
+        db.table("promo").update({"terpakai": current + 1}).eq("id", promo_id).execute()
 
 
 def create_transaksi(cabang_id: str, tanggal: date, items: list[dict]):
@@ -35,10 +44,11 @@ def create_transaksi(cabang_id: str, tanggal: date, items: list[dict]):
         promo = _get_active_promo(db, cabang_id, item["menu"])
 
         if promo:
-            harga = float(promo["harga_promo"])
+            harga = round(float(promo["harga_promo"]))
             keterangan = True
+            _increment_promo_used(db, promo["id"])
         else:
-            harga = float(harga_normal)
+            harga = round(float(harga_normal))
             keterangan = False
 
         rows.append({
