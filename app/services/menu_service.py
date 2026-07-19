@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from app.database import get_supabase
 from app.services.minio_service import download_model, upload_model_pkl
+from app.logging_config import log_security_event
 
 logger = logging.getLogger(__name__)
 
@@ -120,8 +121,22 @@ def _rename_menu_in_model(old_nama: str, new_nama: str):
 
         upload_model_pkl(model_dict)
         logger.info(f"Renamed menu in model.pkl: {old_nama} -> {new_nama}")
+        log_security_event(
+            event_type="RENAME_MODEL",
+            actor="system",
+            result="SUCCESS",
+            resource="minio://ml-models/model.pkl",
+            detail=f"Renamed: {old_nama} -> {new_nama}"
+        )
     except Exception as e:
         logger.error(f"Gagal rename menu in model.pkl: {e}")
+        log_security_event(
+            event_type="RENAME_MODEL",
+            actor="system",
+            result="FAILED",
+            resource="minio://ml-models/model.pkl",
+            detail=f"Error: {str(e)}"
+        )
 
 
 def _remove_menu_from_model(menu_nama: str):
@@ -135,8 +150,22 @@ def _remove_menu_from_model(menu_nama: str):
 
         upload_model_pkl(model_dict)
         logger.info(f"Removed menu from model.pkl: {menu_nama}")
+        log_security_event(
+            event_type="DELETE_MODEL",
+            actor="system",
+            result="SUCCESS",
+            resource="minio://ml-models/model.pkl",
+            detail=f"Removed menu: {menu_nama}"
+        )
     except Exception as e:
         logger.error(f"Gagal hapus menu from model.pkl: {e}")
+        log_security_event(
+            event_type="DELETE_MODEL",
+            actor="system",
+            result="FAILED",
+            resource="minio://ml-models/model.pkl",
+            detail=f"Error: {str(e)}"
+        )
 
 
 def train_menu(menu_nama: str):

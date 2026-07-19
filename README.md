@@ -449,6 +449,43 @@ ALTER TABLE transaksi ADD COLUMN keterangan BOOLEAN DEFAULT false;
 
 > **Catatan:** `keterangan = true` berarti transaksi menggunakan promo.
 
+### Tabel `audit_log` (baru)
+```sql
+CREATE TABLE audit_log (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  event_type VARCHAR NOT NULL,
+  actor VARCHAR NOT NULL,
+  result VARCHAR NOT NULL,
+  ip VARCHAR,
+  client_cn VARCHAR,
+  resource VARCHAR,
+  detail TEXT,
+  method VARCHAR,
+  path VARCHAR,
+  status INT,
+  created_at TIMESTAMP DEFAULT now()
+);
+```
+
+> **Catatan:**
+> - `event_type` = jenis event (LOGIN, REGISTER, CREATE_MENU, DELETE_MODEL, HTTP_REQUEST, dll)
+> - `actor` = user/username yang melakukan aksi
+> - `result` = SUCCESS / FAILED
+> - `client_cn` = Common Name dari client certificate mTLS (isi "no-cert" jika tidak ada)
+> - `ip` = IP address client
+> - `status` = HTTP status code (untuk HTTP_REQUEST event)
+
+---
+
+## Encryption at Rest
+
+| Komponen | Status | Keterangan |
+|----------|--------|------------|
+| Supabase (PostgreSQL) | ✅ Aktif | Supabase mengenkripsi data di disk secara otomatis (AES-256) |
+| MinIO | ⚠️ Perlu konfigurasi | MinIO mendukung SSE (Server-Side Encryption) tapi perlu diaktifkan |
+| Password hashing | ✅ Aktif | Menggunakan bcrypt untuk hash password |
+| `.env` file | ⚠️ Plaintext | Secrets disimpan di Railway env vars saat deploy |
+
 ---
 
 ## Hasil DSS

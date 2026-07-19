@@ -1,0 +1,14 @@
+2026-07-18T14:00:46.673113+00:00 | INFO     | security | event=HTTP_REQUEST method=GET path=/docs status=200 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=3.45
+2026-07-18T14:00:49.062597+00:00 | INFO     | security | event=HTTP_REQUEST method=GET path=/openapi.json status=200 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=155.3
+2026-07-18T14:01:09.426628+00:00 | INFO     | security | event=LOGIN actor=andikaap99 result=FAILED ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=Username atau password salah
+2026-07-18T14:01:10.168570+00:00 | WARNING  | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=401 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=1391.41
+2026-07-18T14:02:49.974391+00:00 | INFO     | security | event=LOGIN actor=admin_pusat result=FAILED ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=Username atau password salah
+2026-07-18T14:02:50.617479+00:00 | WARNING  | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=401 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=2297.3
+2026-07-18T14:03:24.993299+00:00 | INFO     | security | event=LOGIN actor=admin_pusat result=FAILED ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=Username atau password salah
+2026-07-18T14:03:25.794777+00:00 | WARNING  | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=401 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=2317.09
+2026-07-18T15:40:17.444884+00:00 | INFO     | security | event=HTTP_REQUEST method=GET path=/ status=200 ip=127.0.0.1 client_cn=no-cert duration_ms=2.52
+2026-07-18T15:40:19.814562+00:00 | INFO     | security | event=HTTP_REQUEST method=GET path=/api/health status=200 ip=127.0.0.1 client_cn=no-cert duration_ms=881.08
+2026-07-18T15:40:21.531330+00:00 | INFO     | security | event=LOGIN actor=admin_pusat result=SUCCESS ip=127.0.0.1 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=
+2026-07-18T15:40:22.382353+00:00 | INFO     | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=200 ip=127.0.0.1 client_cn=no-cert duration_ms=1939.78
+2026-07-18T15:40:24.071348+00:00 | INFO     | security | event=LOGIN actor=admin_pusat result=FAILED ip=127.0.0.1 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=Username atau password salah
+2026-07-18T15:40:24.634264+00:00 | WARNING  | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=401 ip=127.0.0.1 client_cn=no-cert duration_ms=1621.72

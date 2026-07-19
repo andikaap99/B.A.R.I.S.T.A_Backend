@@ -1,0 +1,46 @@
+2026-07-18T13:53:27.575463+00:00 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-07-18T13:53:27.576247+00:00 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-07-18T13:53:27.578087+00:00 | INFO     | apscheduler.scheduler | Added job "run_dss_engine" to job store "default"
+2026-07-18T13:53:27.578633+00:00 | INFO     | apscheduler.scheduler | Added job "reset_promo_daily" to job store "default"
+2026-07-18T13:53:27.578855+00:00 | INFO     | apscheduler.scheduler | Scheduler started
+2026-07-18T13:53:27.583515+00:00 | INFO     | app.scheduler | Scheduler started: DSS Engine setiap Minggu 23:00 WIB, Reset Promo setiap 00:00 WIB
+2026-07-18T14:00:47.973390+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T14:00:46.673113+00:00 | INFO     | security | event=HTTP_REQUEST method=GET path=/docs status=200 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=3.45
+2026-07-18T14:00:49.780863+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T14:00:49.062597+00:00 | INFO     | security | event=HTTP_REQUEST method=GET path=/openapi.json status=200 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=155.3
+2026-07-18T14:01:09.425264+00:00 | INFO     | httpx | HTTP Request: GET https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/users?select=%2A&username=eq.andikaap99 "HTTP/2 200 OK"
+2026-07-18T14:01:10.166150+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T14:01:09.426628+00:00 | INFO     | security | event=LOGIN actor=andikaap99 result=FAILED ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=Username atau password salah
+2026-07-18T14:01:10.796002+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T14:01:10.168570+00:00 | WARNING  | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=401 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=1391.41
+2026-07-18T14:02:49.290262+00:00 | INFO     | httpx | HTTP Request: GET https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/users?select=%2A&username=eq.admin_pusat "HTTP/2 200 OK"
+2026-07-18T14:02:50.615701+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T14:02:49.974391+00:00 | INFO     | security | event=LOGIN actor=admin_pusat result=FAILED ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=Username atau password salah
+2026-07-18T14:02:51.255621+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T14:02:50.617479+00:00 | WARNING  | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=401 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=2297.3
+2026-07-18T14:03:24.192132+00:00 | INFO     | httpx | HTTP Request: GET https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/users?select=%2A&username=eq.admin_pusat "HTTP/2 200 OK"
+2026-07-18T14:03:25.790023+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T14:03:24.993299+00:00 | INFO     | security | event=LOGIN actor=admin_pusat result=FAILED ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=Username atau password salah
+2026-07-18T14:03:26.533743+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T14:03:25.794777+00:00 | WARNING  | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=401 ip=2404:c0:a701:3d16:615e:6bc2:fb14:2107 client_cn=no-cert duration_ms=2317.09
+2026-07-18T15:32:04.179340+00:00 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-07-18T15:32:04.180030+00:00 | INFO     | apscheduler.scheduler | Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-07-18T15:32:04.181460+00:00 | INFO     | apscheduler.scheduler | Added job "run_dss_engine" to job store "default"
+2026-07-18T15:32:04.182328+00:00 | INFO     | apscheduler.scheduler | Added job "reset_promo_daily" to job store "default"
+2026-07-18T15:32:04.182613+00:00 | INFO     | apscheduler.scheduler | Scheduler started
+2026-07-18T15:32:04.187341+00:00 | INFO     | app.scheduler | Scheduler started: DSS Engine setiap Minggu 23:00 WIB, Reset Promo setiap 00:00 WIB
+2026-07-18T15:40:18.912365+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T15:40:17.444884+00:00 | INFO     | security | event=HTTP_REQUEST method=GET path=/ status=200 ip=127.0.0.1 client_cn=no-cert duration_ms=2.52
+2026-07-18T15:40:19.492470+00:00 | INFO     | httpx | HTTP Request: GET https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/cabang?select=id&limit=1 "HTTP/2 200 OK"
+2026-07-18T15:40:20.416116+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T15:40:19.814562+00:00 | INFO     | security | event=HTTP_REQUEST method=GET path=/api/health status=200 ip=127.0.0.1 client_cn=no-cert duration_ms=881.08
+2026-07-18T15:40:21.013373+00:00 | INFO     | httpx | HTTP Request: GET https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/users?select=%2A&username=eq.admin_pusat "HTTP/2 200 OK"
+2026-07-18T15:40:22.380183+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T15:40:21.531330+00:00 | INFO     | security | event=LOGIN actor=admin_pusat result=SUCCESS ip=127.0.0.1 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=
+2026-07-18T15:40:22.987580+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T15:40:22.382353+00:00 | INFO     | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=200 ip=127.0.0.1 client_cn=no-cert duration_ms=1939.78
+2026-07-18T15:40:23.561918+00:00 | INFO     | httpx | HTTP Request: GET https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/users?select=%2A&username=eq.admin_pusat "HTTP/2 200 OK"
+2026-07-18T15:40:24.632163+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T15:40:24.071348+00:00 | INFO     | security | event=LOGIN actor=admin_pusat result=FAILED ip=127.0.0.1 client_cn=- resource=/api/auth/login method=- path=- status=0 detail=Username atau password salah
+2026-07-18T15:40:25.214315+00:00 | INFO     | httpx | HTTP Request: POST https://icdpqiucxpxlptumdsin.supabase.co/rest/v1/audit_log "HTTP/2 201 Created"
+2026-07-18T15:40:24.634264+00:00 | WARNING  | security | event=HTTP_REQUEST method=POST path=/api/auth/login status=401 ip=127.0.0.1 client_cn=no-cert duration_ms=1621.72

@@ -1,11 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.logging_config import setup_logging
+from app.audit_middleware import AuditLoggingMiddleware
 from app.routes import transaksi, hasil_dss, dashboard, auth, cabang, menu, promo
 from app.scheduler import start_scheduler, trigger_dss_engine, get_scheduler_status
 from app.database import get_supabase
 from app.storage import get_minio_client
 
+# WAJIB dipanggil PALING AWAL, sebelum apapun
+setup_logging()
+
 app = FastAPI(title="DSS Multi-Cabang Coffee Shop Backend", version="1.0.0")
+
+app.add_middleware(AuditLoggingMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
