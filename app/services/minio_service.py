@@ -1,38 +1,26 @@
 import json
 import pickle
-from app.storage import get_minio_client
+from app.storage import s3_put_object, s3_get_object, s3_list_objects
 from app.config import MINIO_BUCKET_DSS, MINIO_BUCKET_MODEL
 
 
 def upload_json(bucket: str, key: str, data: dict):
-    client = get_minio_client()
     json_bytes = json.dumps(data, default=str).encode("utf-8")
-    client.put_object(
-        Bucket=bucket,
-        Key=key,
-        Body=json_bytes,
-        ContentType="application/json",
-    )
+    s3_put_object(bucket, key, json_bytes, "application/json")
     return f"{bucket}/{key}"
 
 
 def download_json(bucket: str, key: str):
-    client = get_minio_client()
-    response = client.get_object(Bucket=bucket, Key=key)
-    content = response["Body"].read().decode("utf-8")
-    return json.loads(content)
+    content = s3_get_object(bucket, key)
+    return json.loads(content.decode("utf-8"))
 
 
 def download_model_bytes(bucket: str, key: str):
-    client = get_minio_client()
-    response = client.get_object(Bucket=bucket, Key=key)
-    return response["Body"].read()
+    return s3_get_object(bucket, key)
 
 
 def list_objects(bucket: str, prefix: str = ""):
-    client = get_minio_client()
-    response = client.list_objects_v2(Bucket=bucket, Prefix=prefix)
-    return [obj["Key"] for obj in response.get("Contents", [])]
+    return s3_list_objects(bucket, prefix)
 
 
 def upload_prediksi(cabang_id: str, tanggal: str, data: dict):
@@ -54,11 +42,5 @@ def download_model():
 
 
 def upload_model_pkl(model_dict: dict):
-    client = get_minio_client()
     model_bytes = pickle.dumps(model_dict)
-    client.put_object(
-        Bucket=MINIO_BUCKET_MODEL,
-        Key="model.pkl",
-        Body=model_bytes,
-        ContentType="application/octet-stream",
-    )
+    s3_put_object(MINIO_BUCKET_MODEL, "model.pkl", model_bytes, "application/octet-stream")

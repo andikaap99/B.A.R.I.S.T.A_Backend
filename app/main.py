@@ -5,7 +5,7 @@ from app.audit_middleware import AuditLoggingMiddleware
 from app.routes import transaksi, hasil_dss, dashboard, auth, cabang, menu, promo
 from app.scheduler import start_scheduler, trigger_dss_engine, get_scheduler_status
 from app.database import get_supabase
-from app.storage import get_minio_client
+from app.storage import s3_list_buckets
 from app.certs_setup import ensure_certs
 
 # WAJIB dipanggil PALING AWAL, sebelum apapun
@@ -55,8 +55,7 @@ def check_connections():
         status["supabase"] = f"error: {str(e)}"
 
     try:
-        client = get_minio_client()
-        client.list_buckets()
+        buckets = s3_list_buckets()
         status["minio"] = "connected"
     except Exception as e:
         status["minio"] = f"error: {str(e)}"
@@ -78,8 +77,7 @@ def scheduler_status():
 @app.get("/api/test-minio")
 def test_minio():
     try:
-        client = get_minio_client()
-        buckets = client.list_buckets()
-        return {"buckets": [b["Name"] for b in buckets]}
+        buckets = s3_list_buckets()
+        return {"buckets": buckets}
     except Exception as e:
         return {"error": str(e)}
