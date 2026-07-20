@@ -73,3 +73,13 @@ def trigger_dss():
 @app.get("/api/scheduler/status")
 def scheduler_status():
     return get_scheduler_status()
+
+
+@app.get("/api/test-minio")
+def test_minio():
+    try:
+        client = get_minio_client()
+        buckets = client.list_buckets()
+        return {"buckets": [b["Name"] for b in buckets]}
+    except Exception as e:
+        return {"error": str(e)}
