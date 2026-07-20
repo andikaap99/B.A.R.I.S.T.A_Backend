@@ -9,7 +9,7 @@ def get_minio_client():
     certs = get_cert_paths()
 
     http_session = botocore.httpsession.URLLib3Session(
-        verify=certs["ca_file"],
+        verify=False,
         client_cert=(certs["cert_file"], certs["key_file"]),
     )
 
