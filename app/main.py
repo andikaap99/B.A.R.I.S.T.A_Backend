@@ -6,9 +6,11 @@ from app.routes import transaksi, hasil_dss, dashboard, auth, cabang, menu, prom
 from app.scheduler import start_scheduler, trigger_dss_engine, get_scheduler_status
 from app.database import get_supabase
 from app.storage import get_minio_client
+from app.certs_setup import ensure_certs
 
 # WAJIB dipanggil PALING AWAL, sebelum apapun
 setup_logging()
+ensure_certs()
 
 app = FastAPI(title="DSS Multi-Cabang Coffee Shop Backend", version="1.0.0")
 
